@@ -5,66 +5,73 @@ import { signToken, setAuthCookie } from "@/lib/auth";
 import { registerSchema } from "@/lib/validations";
 import { ZodError } from "zod";
 
+function generateRandomDicebearAvatar(firstName: string, lastName: string) {
+	const seed = `${firstName}-${lastName}-${crypto.randomUUID()}`;
+
+	return `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(
+		seed
+	)}`;
+}
+
 export async function POST(request: Request) {
-  try {
-    const body = await request.json();
+	try {
+		const body = await request.json();
 
-    // Validate input
-    const validated = registerSchema.parse(body);
+		const validated = registerSchema.parse(body);
 
-    await dbConnect();
+		await dbConnect();
 
-    // Check if user already exists
-    const existingUser = await User.findOne({ email: validated.email }).lean();
-    if (existingUser) {
-      return NextResponse.json(
-        { success: false, error: "An account with this email already exists" },
-        { status: 409 }
-      );
-    }
+		const existingUser = await User.findOne({ email: validated.email }).lean();
+		if (existingUser) {
+			return NextResponse.json(
+				{ success: false, error: "An account with this email already exists" },
+				{ status: 409 }
+			);
+		}
 
-    // Create user (password hashing handled by pre-save hook)
-    const user = await User.create({
-      firstName: validated.firstName,
-      lastName: validated.lastName,
-      email: validated.email,
-      password: validated.password,
-    });
+		const avatar = generateRandomDicebearAvatar(
+			validated.firstName,
+			validated.lastName
+		);
 
-    // Generate token and set cookie
-    const token = await signToken(
-      user._id.toString(),
-      user.email
-    );
-    await setAuthCookie(token);
+		const user = await User.create({
+			firstName: validated.firstName,
+			lastName: validated.lastName,
+			email: validated.email,
+			password: validated.password,
+			avatar,
+		});
 
-    return NextResponse.json(
-      {
-        success: true,
-        data: {
-          _id: user._id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          avatar: user.avatar,
-        },
-        message: "Registration successful",
-      },
-      { status: 201 }
-    );
-  } catch (error) {
-    if (error instanceof ZodError) {
-      const firstIssue = error.issues?.[0];
-      return NextResponse.json(
-        { success: false, error: firstIssue?.message || "Validation failed" },
-        { status: 400 }
-      );
-    }
+		const token = await signToken(user._id.toString(), user.email);
+		await setAuthCookie(token);
 
-    console.error("Registration error:", error);
-    return NextResponse.json(
-      { success: false, error: "Registration failed. Please try again." },
-      { status: 500 }
-    );
-  }
+		return NextResponse.json(
+			{
+				success: true,
+				data: {
+					_id: user._id,
+					firstName: user.firstName,
+					lastName: user.lastName,
+					email: user.email,
+					avatar: user.avatar,
+				},
+				message: "Registration successful",
+			},
+			{ status: 201 }
+		);
+	} catch (error) {
+		if (error instanceof ZodError) {
+			const firstIssue = error.issues?.[0];
+			return NextResponse.json(
+				{ success: false, error: firstIssue?.message || "Validation failed" },
+				{ status: 400 }
+			);
+		}
+
+		console.error("Registration error:", error);
+		return NextResponse.json(
+			{ success: false, error: "Registration failed. Please try again." },
+			{ status: 500 }
+		);
+	}
 }
