@@ -6,8 +6,6 @@ import MobileHeader from "@/components/feed/MobileHeader";
 import LeftSidebar from "@/components/feed/LeftSidebar";
 import RightSidebar from "@/components/feed/RightSidebar";
 import CreatePost from "@/components/feed/CreatePost";
-import PostCard from "@/components/feed/PostCard";
-import StoriesSection from "@/components/feed/StoriesSection";
 import ThemeSwitcher from "@/components/feed/ThemeSwitcher";
 import { useAuth } from "@/context/AuthContext";
 import { IPost } from "@/types";
@@ -70,7 +68,6 @@ export default function FeedPage() {
 		fetchPosts();
 	};
 
-
 	useEffect(() => {
 		const handleScroll = () => {
 			if (
@@ -85,7 +82,6 @@ export default function FeedPage() {
 
 		window.addEventListener("scroll", handleScroll);
 		return () => window.removeEventListener("scroll", handleScroll);
-
 	}, [hasMore, loadingMore, nextCursor]);
 
 	if (authLoading) {
@@ -116,7 +112,6 @@ export default function FeedPage() {
 
 	return (
 		<div className="min-h-screen bg-bg1 flex flex-col">
-
 			<ThemeSwitcher />
 
 			<FeedHeader
@@ -142,25 +137,18 @@ export default function FeedPage() {
 
 			<div className="container mx-auto px-4 lg:px-12 _custom_container py-5 flex-1">
 				<div className="flex gap-7">
-
 					<div className="hidden lg:block w-[23%] shrink-0">
 						<div className="sticky top-24 h-[calc(100vh-70px)] overflow-hidden">
 							<LeftSidebar />
 						</div>
 					</div>
 
-
 					<div className="flex-1 min-w-0 lg:max-w-[54%]">
-
-
-
-
+						
 						<CreatePost onPostCreated={handlePostCreated} />
 
-
-						
+		
 					</div>
-
 
 					<div className="hidden lg:block w-[23%] shrink-0">
 						<div className="sticky top-24 h-[calc(100vh-70px)] overflow-hidden">
@@ -169,7 +157,6 @@ export default function FeedPage() {
 					</div>
 				</div>
 			</div>
-
 
 			<div className="lg:hidden h-16" />
 		</div>
