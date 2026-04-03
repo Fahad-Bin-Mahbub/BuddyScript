@@ -32,7 +32,7 @@ export default function ProfileDropdown({
 				className="flex items-center gap-2 cursor-pointer"
 				onClick={() => setOpen(!open)}
 			>
-				<div className="w-9 h-9 rounded-full overflow-hidden flex-shrink-0">
+				<div className="w-9 h-9 rounded-full overflow-hidden shrink-0">
 					<Image
 						src={user?.avatar || "/images/profile.png"}
 						alt="Profile"
@@ -54,9 +54,9 @@ export default function ProfileDropdown({
 			</div>
 
 			{open && (
-				<div className="absolute top-[calc(100%+18px)] right-0 w-80 bg-bg2 rounded-[6px] shadow-[0_4px_20px_rgba(0,0,0,0.15)] z-[1000]">
+				<div className="absolute top-[calc(100%+18px)] right-0 w-80 bg-bg2 rounded-md shadow-[0_4px_20px_rgba(0,0,0,0.15)] z-1000">
 					<div className="p-4 flex items-center gap-3 border-b border-border2">
-						<div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+						<div className="w-12 h-12 rounded-full overflow-hidden shrink-0">
 							<Image
 								src={user?.avatar || "/images/profile.png"}
 								alt="Profile"

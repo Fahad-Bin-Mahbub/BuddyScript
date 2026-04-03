@@ -7,18 +7,33 @@ import { useAuth } from "@/context/AuthContext";
 import HeaderSearch from "./feedHeader/HeaderSearch";
 import HeaderNav from "./feedHeader/HeaderNav";
 import ProfileDropdown from "./feedHeader/ProfileDropdown";
-import { MOCK_NOTIFICATIONS } from "./feedHeader/header.data";
-import { ActiveTab } from "./feedHeader/header.types";
+import { ActiveTab, NotificationItem } from "./feedHeader/header.types";
 import { useClickOutside } from "@/hooks/useClickOutside";
 
-export default function FeedHeader() {
+type Props = {
+	showNotifications: boolean;
+	setShowNotifications: (value: boolean) => void;
+	showNotifyMenu: boolean;
+	setShowNotifyMenu: (value: boolean) => void;
+	notifyFilter: "all" | "unread";
+	setNotifyFilter: (value: "all" | "unread") => void;
+	notifications: NotificationItem[];
+	setNotifications: React.Dispatch<React.SetStateAction<NotificationItem[]>>;
+};
+
+export default function FeedHeader({
+	showNotifications,
+	setShowNotifications,
+	showNotifyMenu,
+	setShowNotifyMenu,
+	notifyFilter,
+	setNotifyFilter,
+	notifications,
+	setNotifications,
+}: Props) {
 	const { user, logout } = useAuth();
 
 	const [showProfileDrop, setShowProfileDrop] = useState(false);
-	const [showNotifications, setShowNotifications] = useState(false);
-	const [showNotifyMenu, setShowNotifyMenu] = useState(false);
-	const [notifyFilter, setNotifyFilter] = useState<"all" | "unread">("all");
-	const [notifications, setNotifications] = useState(MOCK_NOTIFICATIONS);
 	const [activeTab, setActiveTab] = useState<ActiveTab>("home");
 
 	const profileRef = useRef<HTMLDivElement>(null);
@@ -26,6 +41,7 @@ export default function FeedHeader() {
 
 	useClickOutside(profileRef, () => setShowProfileDrop(false));
 	useClickOutside(notifyRef, () => {
+		if (window.innerWidth < 1024) return;
 		setShowNotifications(false);
 		setShowNotifyMenu(false);
 	});

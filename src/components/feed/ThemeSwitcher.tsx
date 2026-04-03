@@ -30,7 +30,7 @@ export default function ThemeSwitcher() {
   if (!mounted) return null;
 
   return (
-		<div className="fixed right-0 top-1/2 -translate-y-1/2 z-[99999] flex flex-col items-center gap-1.5">
+		<div className="fixed right-1 top-1/2 -translate-y-1/2 z-99999 flex flex-col items-center gap-1.5">
 			<button
 				type="button"
 				onClick={toggleTheme}

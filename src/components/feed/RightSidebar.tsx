@@ -60,7 +60,7 @@ const FRIENDS = [
 export default function RightSidebar() {
 	return (
 		<div className="h-full overflow-y-auto pr-2 flex flex-col gap-4">
-			{/* You Might Like */}
+
 			<div className="bg-bg2 rounded-md p-6 shadow-sm">
 				<div className="flex items-center justify-between mb-6">
 					<h4 className="font-semibold text-xl text-dark5">
@@ -104,7 +104,7 @@ export default function RightSidebar() {
 				</div>
 			</div>
 
-			{/* Your Friends */}
+
 			<div className="bg-bg2 rounded-md px-5 pt-6 pb-6 shadow-sm">
 				<div className="flex items-center justify-between mb-6">
 					<h4 className="font-semibold text-xl text-dark5">
@@ -118,7 +118,7 @@ export default function RightSidebar() {
 					</Link>
 				</div>
 
-				{/* Search */}
+
 				<form className="relative mb-5">
 					<Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4.25 h-4.25 text-gray" />
 					<input
@@ -128,7 +128,7 @@ export default function RightSidebar() {
 					/>
 				</form>
 
-				{/* Friends list */}
+
 				<div className="flex flex-col gap-4 max-h-105 overflow-y-auto px-1 py-1">
 					{FRIENDS.map((friend, index) => (
 						<div
