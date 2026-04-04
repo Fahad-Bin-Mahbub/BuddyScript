@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { IPost } from "@/types";
 import { useAuth } from "@/context/AuthContext";
-import CommentSection from "./CommentSection";
+import CommentSection from "./postCard/CommentSection";
 import LikersModal from "./postCard/LikersModal";
 import PostHeader from "./postCard/PostHeader";
 import PostStats from "./postCard/PostStats";
