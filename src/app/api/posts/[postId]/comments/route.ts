@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import "@/models/User";
 import dbConnect from "@/lib/mongodb";
 import Comment from "@/models/Comment";
 import Post from "@/models/Post";

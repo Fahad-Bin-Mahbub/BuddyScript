@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import "@/models/User";
 import dbConnect from "@/lib/mongodb";
 import Comment from "@/models/Comment";
 import { getCurrentUser } from "@/lib/auth";
