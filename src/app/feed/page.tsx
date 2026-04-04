@@ -6,6 +6,8 @@ import MobileHeader from "@/components/feed/MobileHeader";
 import LeftSidebar from "@/components/feed/LeftSidebar";
 import RightSidebar from "@/components/feed/RightSidebar";
 import CreatePost from "@/components/feed/CreatePost";
+import PostCard from "@/components/feed/PostCard";
+import StoriesSection from "@/components/feed/StoriesSection";
 import ThemeSwitcher from "@/components/feed/ThemeSwitcher";
 import { useAuth } from "@/context/AuthContext";
 import { IPost } from "@/types";
@@ -144,10 +146,79 @@ export default function FeedPage() {
 					</div>
 
 					<div className="flex-1 min-w-0 lg:max-w-[54%]">
-						
+						<StoriesSection />
 						<CreatePost onPostCreated={handlePostCreated} />
 
-		
+						{loading ? (
+							<div className="flex justify-center py-12">
+								<svg
+									className="animate-spin h-8 w-8 text-primary"
+									viewBox="0 0 24 24"
+								>
+									<circle
+										className="opacity-25"
+										cx="12"
+										cy="12"
+										r="10"
+										stroke="currentColor"
+										strokeWidth="4"
+										fill="none"
+									/>
+									<path
+										className="opacity-75"
+										fill="currentColor"
+										d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+									/>
+								</svg>
+							</div>
+						) : posts.length === 0 ? (
+							<div className="bg-bg2 rounded-md p-12 text-center shadow-sm">
+								<p className="text-gray text-[16px] mb-2">No posts yet</p>
+								<p className="text-gray-light text-[14px]">
+									Be the first to share something!
+								</p>
+							</div>
+						) : (
+							<>
+								{posts.map((post) => (
+									<PostCard
+										key={post._id}
+										post={post}
+										onPostDeleted={handlePostDeleted}
+									/>
+								))}
+
+								{loadingMore && (
+									<div className="flex justify-center py-6">
+										<svg
+											className="animate-spin h-6 w-6 text-primary"
+											viewBox="0 0 24 24"
+										>
+											<circle
+												className="opacity-25"
+												cx="12"
+												cy="12"
+												r="10"
+												stroke="currentColor"
+												strokeWidth="4"
+												fill="none"
+											/>
+											<path
+												className="opacity-75"
+												fill="currentColor"
+												d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+											/>
+										</svg>
+									</div>
+								)}
+
+								{!hasMore && posts.length > 0 && (
+									<p className="text-center text-[13px] text-gray-light py-6">
+										You&apos;ve reached the end
+									</p>
+								)}
+							</>
+						)}
 					</div>
 
 					<div className="hidden lg:block w-[23%] shrink-0">
