@@ -31,8 +31,6 @@ export async function GET(request: NextRequest) {
 
     const userId = new mongoose.Types.ObjectId(tokenPayload.userId);
 
-    // Build query: public posts OR user's own private posts
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const query: any = {
       $or: [
         { visibility: "public" },
